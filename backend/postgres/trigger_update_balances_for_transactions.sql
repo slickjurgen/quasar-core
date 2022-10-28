@@ -1,0 +1,1 @@
+CREATE TRIGGER update_balances_for_transactions AFTER INSERT ON "transactions" FOR EACH ROW EXECUTE PROCEDURE update_balances();
