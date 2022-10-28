@@ -66,7 +66,7 @@ export default {
         },
         body: JSON.stringify({
           query: '{ product_deposits(where: {active: {_eq: true}, _and: {clients: {_eq: true}}}, order_by: {category: asc, type: asc, name: asc}) ' + 
-            '{id account_balance_for_calc category day_interest_payed interest_days_in_year identifier interest_payed interest_rate_charged' +
+            '{id account_balance_for_calc category interest_payed_into_account interest_days_in_year identifier interest_payed interest_rate_charged' +
             ' interest_rate_default interest_rate_max interest_rate_min interest_rate_terms name overdraft_allowed overdraft_interest_rate withhold_taxes type }}'        }),
       })
       .then(function(response) {

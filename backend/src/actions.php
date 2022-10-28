@@ -35,7 +35,7 @@ class actions
         } */
         dbg('++++ Get interest rate from Hasura', $resp);
 
-        if(count($resp['data']['accounts_by_pk']['account_balances']) != 1 || $resp['data']['accounts_by_pk']['deposit_accounts'] != 1) {
+        if(count($resp['data']['accounts_by_pk']['account_balances']) != 1 || count($resp['data']['accounts_by_pk']['deposit_accounts']) != 1) {
             
             $rc = false;
             dbg('++++ ERROR did\'t get expected values from Hasura...');
