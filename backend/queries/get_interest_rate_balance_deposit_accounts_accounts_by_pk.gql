@@ -1,0 +1,9 @@
+query GetInterestRateBalanceDepositAccounts($id: uuid!) {
+  accounts_by_pk(id: $id) {
+    deposit_accounts { interest_rate }
+
+    account_balances(limit: 1, order_by: {reference_date: desc}) {
+      balance
+    }
+  }
+}

@@ -3,7 +3,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 
-$hasura = get_client($_SERVER['HASURA_API'], $_SERVER['HASURA_GRAPHQL_ADMIN_SECRET']);
+//$hasura = get_client($_SERVER['HASURA_API'], $_SERVER['HASURA_GRAPHQL_ADMIN_SECRET']);
+$hasura = get_client('http://localhost:8080/v1/graphql', '');
 
 /*
 TODO: good logging
