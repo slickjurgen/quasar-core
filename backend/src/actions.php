@@ -54,12 +54,12 @@ class actions
 
             $interest = ($balance / 100) * $interest_rate / 12 * $term;
 
-            dbg('++++ Asume interest is paid at maturity (this works also with underyear terms)');
+            dbg('++++ Assume interest is paid at maturity (this works also with periods of less than a year)');
             dbg('++++ Interest', $interest);
 
             // do this only if term is more than a year or multiple of years
             if($term > 11 && $term % 12 == 0)
-            dbg('++++ Asume interest is paid yearly');
+            dbg('++++ Assume interest is paid yearly');
 
             $calc_balance = $balance;
 
@@ -68,21 +68,21 @@ class actions
             for($i = 1; $i <= $years; $i++) {
                 $interest = ($calc_balance / 100) * $interest_rate;
 
-                // may be we should have a flag, if interest will be booked on account 
+                // maybe we should have a flag, if interest will be booked on account 
                 $calc_balance += $interest;
             }
 
             $interest = $calc_balance - $balance;
             dbg('++++ Interest', $interest);
 
-            dbg('++++ Asume interest is paid monthly');
+            dbg('++++ Assume interest is paid monthly');
 
             $calc_balance = $balance;
 
             for($i = 1; $i <= $term; $i++) {
                 $interest = ($calc_balance / 100) * $interest_rate / 12;
 
-                // may be we should have a flag, if interest will be booked on account 
+                // maybe we should have a flag, if interest will be booked on account 
                 $calc_balance += $interest;
             }
 
