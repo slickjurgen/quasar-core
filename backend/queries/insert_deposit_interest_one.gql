@@ -1,0 +1,5 @@
+mutation InsertDepositInterestOne($account_id: uuid!, $interest: numeric!, $value_date: date!) {
+  insert_deposit_interest_one(object: {account_id: $account_id, amount: $interest, value_date: $value_date}) {
+    id
+  }
+}

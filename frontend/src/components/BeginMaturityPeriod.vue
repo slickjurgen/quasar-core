@@ -47,6 +47,25 @@ export default {
 
     methods: {
         setMaturity() {
+
+            fetch('http://localhost:8080/v1/graphql', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: 'mutation { beginMaturityPeriodFixedDeposit(input: {accountId: "' + this.id + '", term: ' + this.maturity.value + '}) { success }}'
+                })
+            })        
+            .then(function(response) {
+                return response.json()
+            })
+            .then(data => console.log(data)) 
+            // give info on success
+            this.$q.notify('Maturity period has been started')
+            // clear data
+/*
             console.log(this.maturity.value)
 
             // first calculate the dates based on today
@@ -93,7 +112,7 @@ export default {
                 console.log("New Balance: " + calc_balance)                
             }
     
-
+*/
         },
     }
 }

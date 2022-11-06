@@ -54,22 +54,29 @@ class actions
 
             $interest = ($balance / 100) * $interest_rate / 12 * $term;
 
-            dbg('++++ Assume interest is paid at maturity (this works also with periods of less than a year)');
+            dbg('++++ Assume interest is paid on maturity (this works also with periods of less than a year)');
             dbg('++++ Interest', $interest);
 
+            // Save this
+            $resp = post_graphql($this->hasura, 'insert_deposit_interest_one', ['account_id' => $account_id, 'interest' => $interest, 'value_date' => $maturity_date]);
+
+            // ... and set maturity date finally
+            $resp = post_graphql($this->hasura, 'update_deposit_accounts_set_maturity', ['account_id' => $account_id, 'maturity' => $maturity_date]);
+
             // do this only if term is more than a year or multiple of years
-            if($term > 11 && $term % 12 == 0)
-            dbg('++++ Assume interest is paid yearly');
+            if($term > 11 && $term % 12 == 0) {
+                dbg('++++ Assume interest is paid yearly');
 
-            $calc_balance = $balance;
-
-            $years = $term / 12;
-
-            for($i = 1; $i <= $years; $i++) {
-                $interest = ($calc_balance / 100) * $interest_rate;
-
-                // maybe we should have a flag, if interest will be booked on account 
-                $calc_balance += $interest;
+                $calc_balance = $balance;
+    
+                $years = $term / 12;
+    
+                for($i = 1; $i <= $years; $i++) {
+                    $interest = ($calc_balance / 100) * $interest_rate;
+    
+                    // maybe we should have a flag, if interest will be booked on account 
+                    $calc_balance += $interest;
+                }
             }
 
             $interest = $calc_balance - $balance;
@@ -91,6 +98,10 @@ class actions
         }
 
         return ['success' => $rc];
+    }
+
+    public function calc_interest($data) {
+
     }
 
 }

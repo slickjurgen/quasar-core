@@ -1,0 +1,5 @@
+mutation UpdateDepositAccountsSetMaturity($account_id: uuid!, $maturity: date!) {
+    update_deposit_accounts(where: {account_id: {_eq: $account_id}}, _set: {maturity: $maturity}) { 
+        affected_rows 
+    }
+}

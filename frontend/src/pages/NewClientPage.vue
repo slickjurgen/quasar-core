@@ -47,8 +47,7 @@ export default {
   },  
 
   methods: { 
-    saveClient() {
-      const { pad } = format  
+    saveClient() { 
 
       fetch('http://localhost:8080/v1/graphql', {
         method: 'POST',

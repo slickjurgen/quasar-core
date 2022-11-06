@@ -15,62 +15,40 @@
         >
           <q-tab name="details" label="Account details" />
           <q-tab name="transactions" label="Transactions" />
-          <q-tab name="attachments" label="Attachments" />
+          <q-tab name="interest" label="Interest" />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab">
           <q-tab-panel name="details">
-            <div class="text-h6">Account details</div>
-                <div class="row">
-                  <div class="col-sm-9">
-                    <div class="row q-pa-md">
-                      <div class="col-6">
-                          Total Balance {{ parseFloat(balance).toFixed(2) }} {{ account.currency }} 
-                      </div>
-                      <div class="col-6">
-                          <DepositAccountState :id="account.deposit_accounts[0].id" :current_state="account.deposit_accounts[0].state" />
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8 col-sm-6">
-                          Account type
-                      </div>
-                      <div class="col-4 col-sm-6">
-                          {{ account.type }}
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8 col-sm-6">
-                          Product name
-                      </div>
-                      <div class="col-4 col-sm-6">
-                          {{  }}
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8 col-sm-6">
-                          IBAN
-                      </div>
-                      <div class="col-4 col-sm-6">
-                          {{ account.iban }}
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-8 col-sm-6">
-                          Interest rate
-                      </div>
-                      <div class="col-4 col-sm-6">
-                          {{ parseFloat(account.deposit_accounts[0].interest_rate).toFixed(2)+" %" }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div class="row text-h6">
+              <div class="col">Account details</div><div class="col"><DepositAccountState :id="account.deposit_accounts[0].id" :current_state="account.deposit_accounts[0].state" /></div>
+            </div>
+            <div class="row">
+              <div class="col-6">Total Balance</div>
+              <div class="col-6">{{ parseFloat(balance).toFixed(2) }} {{ account.currency }}</div> 
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-6">Account type</div>
+              <div class="col-4 col-sm-6">{{ account.type }}</div>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-6">Maturity</div>
+              <div class="col-4 col-sm-6">{{ account.deposit_accounts[0].maturity }}</div>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-6">IBAN</div>
+              <div class="col-4 col-sm-6">{{ account.iban }}</div>
+            </div>
+            <div class="row">
+              <div class="col-8 col-sm-6">Interest rate</div>
+              <div class="col-4 col-sm-6">{{ parseFloat(account.deposit_accounts[0].interest_rate).toFixed(2)+" %" }}</div>
+            </div>
             <div class="q-pa-md q-gutter-sm"> 
                 <q-btn no-caps to="" color="primary" label="Deposit" @click="make_deposit = true" />
                 <q-btn v-if="account.deposit_accounts[0].state == 'pendingapproval' || account.deposit_accounts[0].state == 'approved'" no-caps to="" color="primary" label="Withdraw" @click="make_withdrawal = true" />
-                <BeginMaturityPeriod :id="account.deposit_accounts[0].id" :state="account.deposit_accounts[0].state" :balance="balance" :interest_rate="account.deposit_accounts[0].interest_rate" />
+                <BeginMaturityPeriod :id="this.id" :state="account.deposit_accounts[0].state" :balance="balance" :interest_rate="account.deposit_accounts[0].interest_rate" v-if="!account.deposit_accounts[0].maturity" />
                 <q-btn no-caps to="" color="primary" label="Transfer" />
             </div>
           </q-tab-panel>
@@ -79,9 +57,8 @@
                 <TransactionList :id="this.id" />
           </q-tab-panel>
 
-          <q-tab-panel name="attachments">
-            <div class="text-h6">Attachments</div>
-            Sorry, no attachments.
+          <q-tab-panel name="interest">
+                <DepositInterestList :id="this.id" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
@@ -132,12 +109,13 @@
 import TransactionList from '../components/TransactionList.vue'
 import DepositAccountState from '../components/DepositAccountState.vue'
 import BeginMaturityPeriod from '../components/BeginMaturityPeriod.vue'
+import DepositInterestList from '../components/DepositInterestList.vue'
 
 import { ref } from 'vue'
 
 export default {
     components: {
-        TransactionList, DepositAccountState, BeginMaturityPeriod
+        TransactionList, DepositAccountState, BeginMaturityPeriod, DepositInterestList
     },
     props: ['id'],
 
@@ -173,7 +151,7 @@ export default {
                 'Accept': 'application/json',
                 },
                 body: JSON.stringify({
-                    query: '{ accounts_by_pk (id: "' + this.id + '") { id type currency account_no name iban deposit_accounts { id interest_rate state }}}'
+                    query: '{ accounts_by_pk (id: "' + this.id + '") { id type currency account_no name iban deposit_accounts { id interest_rate state maturity }}}'
                 }),
             })
             .then(function(response) {
