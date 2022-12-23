@@ -19,7 +19,15 @@ const routes = [
       { path: '/settings', component: () => import('pages/SettingsPage.vue') }
     ]
   },
-
+  {
+    path: '/account',
+    component: () => import('layouts/AccountLayout.vue'),
+    children: [
+    { path: '', redirect: '/account/login' },
+    { path: 'login', component: () => import('pages/LoginPage.vue') },
+    { path: 'register', component: () => import('pages/RegisterPage.vue') },
+    ]
+},
   // Always leave this as last one,
   // but you can also remove it
   {

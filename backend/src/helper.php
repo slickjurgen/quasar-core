@@ -1,5 +1,10 @@
 <?php
 
+require_once __DIR__ . '/api.php';
+
+
+use Ahc\Jwt\JWT;
+use Ahc\Jwt\JWTException;
 use GuzzleHttp\Client;
 
 function resp($data) {
@@ -47,7 +52,8 @@ function gen_token($file, $props = [], $hasura = []) {
     }
     // $jwt = new JWT('secret', 'HS256', 900, 10);
     $key = __DIR__ . '/' . $file;
-    // print file_get_contents($key);
+    dbg('++++ using key file', $key); 
+   // print file_get_contents($key);
     $jwt = new JWT($key, 'RS256', 900, 10);
     $token = $jwt->encode([
         'uid' => 1,
@@ -186,4 +192,31 @@ function get_raw_req() {
     dbg('++++ raw input read ++++');
     return file_get_contents('php://input');
 }
+
+function get_req_headers($router)
+{
+    dbg('+++ router get headers');
+    return array_change_key_case($router->getRequestHeaders());
+}
+
+function send_cors($hdrs)
+{
+    // dbg("hdrs", $hdrs);
+    $origin = $hdrs['origin']??null;
+    if ($origin && str_starts_with($origin, 'http://localhost')) {
+        header("Access-Control-Allow-Origin: ".$origin);
+        header('Access-Control-Allow-Credentials: true');
+        header("Access-Control-Allow-Headers: Content-Type, Authorization, Access-Control-Allow-Origin");
+    }
+}
+
+function base64_url_encode( $data ) {
+    return strtr( base64_encode($data), '+/=', '-_,' );
+}
+
+function base64_url_decode( $data ) {
+    return base64_decode( strtr($data, '-_,', '+/=') );
+}
+
+
 

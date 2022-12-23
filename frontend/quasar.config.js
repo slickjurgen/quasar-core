@@ -76,6 +76,15 @@ module.exports = configure(function (ctx) {
       chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+      },
+
+      env: {
+        HASURA_API: ctx.dev
+          ? 'http://localhost:8080/v1/graphql'
+          : 'http://we-operate.com/api/v1/graphql',
+        BACKEND_API: ctx.dev
+          ? 'http://localhost:2222'
+          : 'http://we-operate.com/backend',
       }
       
     },

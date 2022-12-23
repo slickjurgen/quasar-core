@@ -3,9 +3,9 @@ query GetUsers($login: String!) {
     id
     email
     login
-    nachname
-    vorname
-    rolle
+    firstname
+    lastname
+    role
     password
   }
 }

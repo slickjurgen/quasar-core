@@ -41,14 +41,14 @@ class users {
                 // store in session
                 $_SESSION['id'] = $userdata['id'];
                 $_SESSION['login'] = $data['username'];
-                $_SESSION['vorname'] = $userdata['vorname'];
-                $_SESSION['nachname'] = $userdata['nachname'];
+                $_SESSION['firstname'] = $userdata['firstname'];
+                $_SESSION['lastname'] = $userdata['lastname'];
                 $_SESSION['email'] = $userdata['email'];
-                $_SESSION['rolle'] = $userdata['rolle'];
+                $_SESSION['role'] = $userdata['role'];
 
                 $user = $this->get_user_from_session();
                 $user['expire'] = $exp;
-                $token = generate_jwt('we-operate.com', $userdata['id'], $userdata['email'], 'weoperate', $exp, $userdata['rolle']);
+                $token = generate_jwt('cbos', $userdata['id'], $userdata['email'], 'cbos', $exp, $userdata['role']);
 
                 setcookie('hasuraaccess', $token, 0, '/');
             } else {
@@ -74,7 +74,7 @@ class users {
             $user = $this->get_user_from_session();
             $user['expire'] = $exp;
 
-            $token = generate_jwt('we-operate.com', $_SESSION['id'], $_SESSION['email'], 'weoperate', $exp, $_SESSION['rolle']);
+            $token = generate_jwt('cbos', $_SESSION['id'], $_SESSION['email'], 'cbos', $exp, $_SESSION['role']);
             setcookie('hasuraaccess', $token, 0, '/');
 
         } else {
@@ -105,14 +105,14 @@ class users {
             // store in session
             $_SESSION['id'] = $userdata['id'];
             $_SESSION['login'] = $data['username'];
-            $_SESSION['vorname'] = $userdata['vorname'];
-            $_SESSION['nachname'] = $userdata['nachname'];
+            $_SESSION['firstname'] = $userdata['firstname'];
+            $_SESSION['lastname'] = $userdata['lastname'];
             $_SESSION['email'] = $userdata['email'];
-            $_SESSION['rolle'] = $userdata['rolle'];
+            $_SESSION['role'] = $userdata['role'];
 
             $user = $this->get_user_from_session();
             $user['expire'] = $exp;
-            $token = generate_jwt('we-operate.com', $userdata['id'], $userdata['email'], 'weoperate', $exp, $userdata['rolle']);
+            $token = generate_jwt('cbos', $userdata['id'], $userdata['email'], 'cbos', $exp, $userdata['role']);
 
             setcookie('hasuraaccess', $token, 0, '/');
         } else {
@@ -156,10 +156,10 @@ class users {
 
         $user['id'] = $_SESSION['id'];
         $user['login'] = $_SESSION['login'];
-        $user['firstname'] = $_SESSION['vorname'];
-        $user['lastname'] = $_SESSION['nachname'];
+        $user['firstname'] = $_SESSION['firstname'];
+        $user['lastname'] = $_SESSION['lastname'];
         $user['email'] = $_SESSION['email'];
-        $user['rolle'] = $_SESSION['rolle'];
+        $user['role'] = $_SESSION['role'];
 
         return $user;
     }

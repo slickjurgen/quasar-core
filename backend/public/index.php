@@ -3,8 +3,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 
-//$hasura = get_client($_SERVER['HASURA_API'], $_SERVER['HASURA_GRAPHQL_ADMIN_SECRET']);
-$hasura = get_client('http://localhost:8080/v1/graphql', '');
+$hasura = get_client($_SERVER['HASURA_API'], $_SERVER['HASURA_GRAPHQL_ADMIN_SECRET']);
+//$hasura = get_client('http://localhost:8080/v1/graphql', '');
 
 /*
 TODO: good logging
@@ -14,6 +14,11 @@ https://stackoverflow.com/questions/23844761/upstream-sent-too-big-header-while-
 //dbg('client test', $res);
 
 $router = new \Bramus\Router\Router();
+
+send_cors(get_req_headers($router));
+$router->options('/.*', function () {
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+});
 
 // list($post, $raw) = get_json_req();
 
@@ -70,7 +75,7 @@ $router->mount('/actions', function () use ($router, $hasura) {
 
 $router->mount('/users', function () use ($router, $hasura) {
 
-    session_name('weop');
+    session_name('cbos');
     session_start();
 
     $api = new cbos\users($hasura);
