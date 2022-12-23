@@ -48,6 +48,11 @@ class actions
             dbg('++++ Balance', $balance);
 
             // first let's do the calculations
+            $start_date = date('Y-m-d');
+            // days till 31.12.? months till 31.12.?
+            
+
+
             // here we asume interest is payed on maturity
             $maturity_date = date('Y-m-d', strtotime("+$term months"));
             dbg('++++ Maturity', $maturity_date);

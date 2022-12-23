@@ -68,6 +68,27 @@ $router->mount('/actions', function () use ($router, $hasura) {
     });
 });
 
+$router->mount('/users', function () use ($router, $hasura) {
+
+    session_name('weop');
+    session_start();
+
+    $api = new cbos\users($hasura);
+
+    $router->get('/(\w+)', function ($meth) use ($api) {
+        $meth = "get_{$meth}";
+        resp($api->$meth());
+    });
+
+    $router->post('/(\w+)', function ($meth) use ($api) {
+        $meth = "{$meth}";
+        $data = get_json_req();
+
+        resp($api->$meth($data));
+    });    
+
+});
+
 $router->get('/auth', function () use ($req) {
     $rsp = ['X-Hasura-User-Id' => '1', 'X-Hasura-Role' => 'user'];
     header('content-type: application/json');

@@ -1,3 +1,6 @@
 .env
 
 vendor
+
+jwtRS256.key.pub
+private.key
