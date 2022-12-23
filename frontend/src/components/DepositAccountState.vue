@@ -1,5 +1,5 @@
 <template>
-    <q-btn-dropdown no-caps dense outline size="sm" color="secondary" :label="state">
+    <q-btn-dropdown no-caps dense outline size="sm" color="secondary" :label="state ? state : current_state">
       <q-list>
         <q-item clickable v-close-popup @click="setState('approved')">
           <q-item-section>
@@ -29,7 +29,7 @@ export default {
     props: ['id', 'current_state'],
 
     setup() {
-        
+
     },
 
     created() {

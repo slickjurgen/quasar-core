@@ -1,4 +1,5 @@
 <template>
+    <div>
     <q-btn v-if="state == 'active'" 
         no-caps 
         to="" 
@@ -27,6 +28,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    </div>
 </template>
 
 <script>

@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div class="text-h6">Transactions</div>
     <div class="row text-weight-bold">
         <div class="col">Accounting date</div>
@@ -13,6 +14,7 @@
         <div class="col">{{ transaction.key }}</div>
         <div class="col">{{ transaction.descr }}</div>
         <div align="right" class="col" :class="{ 'text-negative': parseFloat(transaction.amount) < 0 }">{{ parseFloat(transaction.amount).toFixed(2) }} {{ transaction.currency }}</div>
+    </div>
     </div>
 </template>
 

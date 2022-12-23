@@ -73,7 +73,8 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'active', label: 'State', align: 'left', field: 'active', format: val => val ? "\u2611 activated" : "\u2610 deactivated", sortable: true },   
+  { name: 'active', label: 'State', align: 'left', field: 'active', format: val => val ? "\u2611 activated" : "\u2610 deactivated", sortable: true },  
+  { name: 'interest_rate_charged', label: 'Interest rate charged', align: 'left', field: 'interest_rate_charged', format: val => val, sortable: false }, 
   { name: 'category', label: 'Category', align: 'left', field: 'category', sortable: true },
   { name: 'type', label: 'Type', align: 'left', field: 'type', sortable: true }
 
@@ -87,6 +88,7 @@ export default {
      filter: ref(''),
      products: [
       ],
+      interest_rate_charged: [ '% per year', '% per month', '% per 4 weeks', '% per week', '% per X days'],
       error: null
     }
   },  
@@ -106,7 +108,7 @@ export default {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          query: '{ product_deposits(order_by: {identifier: asc}) {id identifier name description active category type} }',
+          query: '{ product_deposits(order_by: {identifier: asc}) {id identifier name description active category type interest_rate_charged} }',
         }),
       })
       .then(function(response) {
@@ -125,6 +127,7 @@ export default {
             active: product.active,
             category: product.category,              
             type: product.type,
+            interest_rate_charged: this.interest_rate_charged[product.interest_rate_charged],
           });
         }
       })
@@ -133,6 +136,10 @@ export default {
     addRow() {
         // needs to be filled out
     },
+
+    getLabel() {
+      return 'hallo'
+    }
   } 
 } 
 </script>

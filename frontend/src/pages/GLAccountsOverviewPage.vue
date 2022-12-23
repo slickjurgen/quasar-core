@@ -115,7 +115,7 @@ export default {
                 'Accept': 'application/json',
                 },
                 body: JSON.stringify({
-                    query: '{ account_balances(where: {account_id: {_eq: "' + this.id + '"}, reference_date: {}}, order_by: {reference_date: desc}, limit: 1) { balance }}'
+                    query: '{ account_balances(where: {account_id: {_eq: "' + this.id + '"}}) { balance }}'
                 }),
             })
             .then(function(response) {

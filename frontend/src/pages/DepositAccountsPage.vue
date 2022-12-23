@@ -1,58 +1,60 @@
 <template>
-  <span v-for="error in errors" v-bind:key="error.key">
-    {{ error.message }}
-  </span>
-  <div class="q-pa-md">
-    <q-table
-      title="accounts"
-      flat
-      dense
-      :rows="accounts"
-      :columns="columns"
-      :filter="filter"
-      :pagination="pagination"
-      row-key="id"
-    >
-        <template v-slot:top>
-          <div class="q-pr-lg text-h6">Deposit accounts</div>
-           <q-btn to="/newaccount" round size="sm" color="primary" icon="person_add" @click="addRow" />
-            <q-space />
-            <q-input dense debounce="300" color="primary" v-model="filter">
-                <template v-slot:append>
-                <q-icon name="search" />
-                </template>
-            </q-input>
-        </template>
+  <div>
+    <span v-for="error in errors" v-bind:key="error.key">
+      {{ error.message }}
+    </span>
+    <div class="q-pa-md">
+      <q-table
+        title="accounts"
+        flat
+        dense
+        :rows="accounts"
+        :columns="columns"
+        :filter="filter"
+        :pagination="pagination"
+        row-key="id"
+      >
+          <template v-slot:top>
+            <div class="q-pr-lg text-h6">Deposit accounts</div>
+            <q-btn to="/newaccount" round size="sm" color="primary" icon="person_add" @click="addRow" />
+              <q-space />
+              <q-input dense debounce="300" color="primary" v-model="filter">
+                  <template v-slot:append>
+                  <q-icon name="search" />
+                  </template>
+              </q-input>
+          </template>
 
 
-        <template v-slot:header="props">
-          <q-tr :props="props">
-            <q-th auto-width />
-            <q-th
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-            >
-              {{ col.label }}
-            </q-th>
-          </q-tr>
-        </template>
+          <template v-slot:header="props">
+            <q-tr :props="props">
+              <q-th auto-width />
+              <q-th
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+              >
+                {{ col.label }}
+              </q-th>
+            </q-tr>
+          </template>
 
-        <template v-slot:body="props">
-          <q-tr :props="props">
-            <q-td auto-width>
-              <q-btn :to="'/accounts/' + props.key" size="sm" color="primary" round dense @click="props.expand = !props.expand" icon="loupe" />
-            </q-td>
-            <q-td
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-            >
-              {{ col.value }}
-            </q-td>
-          </q-tr>
-        </template>
-    </q-table>
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td auto-width>
+                <q-btn :to="'/accounts/' + props.key" size="sm" color="primary" round dense @click="props.expand = !props.expand" icon="loupe" />
+              </q-td>
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+              >
+                {{ col.value }}
+              </q-td>
+            </q-tr>
+          </template>
+      </q-table>
+    </div>
   </div>
 </template>
 
