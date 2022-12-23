@@ -1,0 +1,2 @@
+CREATE TRIGGER update_account_balances_hist AFTER UPDATE ON "account_balances" FOR EACH ROW EXECUTE PROCEDURE insert_balances_hist();
+CREATE TRIGGER insert_account_balances_hist AFTER INSERT ON "account_balances" FOR EACH ROW EXECUTE PROCEDURE insert_balances_hist();

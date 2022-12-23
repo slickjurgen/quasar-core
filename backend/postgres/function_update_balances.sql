@@ -5,16 +5,16 @@ CREATE FUNCTION update_balances()
 
     BEGIN 
 
-    INSERT INTO account_balances (account_id, balance, reference_date) VALUES (NEW.debit_account_id, -NEW.amount, CURRENT_DATE)
-        ON CONFLICT (account_id, reference_date)
+    INSERT INTO account_balances (account_id, balance) VALUES (NEW.debit_account_id, -NEW.amount)
+        ON CONFLICT (account_id)
         DO
             UPDATE SET balance = account_balances.balance - NEW.amount;
             
-    INSERT INTO account_balances (account_id, balance, reference_date) VALUES (NEW.credit_account_id, NEW.amount, CURRENT_DATE)
-        ON CONFLICT (account_id, reference_date)
+    INSERT INTO account_balances (account_id, balance) VALUES (NEW.credit_account_id, NEW.amount)
+        ON CONFLICT (account_id)
         DO
             UPDATE SET balance = account_balances.balance + NEW.amount;
-            
+
     RETURN NULL;
     
     END;
